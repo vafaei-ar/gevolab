@@ -1,0 +1,4 @@
+This package is based on gevolution, LATfield2 and rockstar to manage, analyze and visualize gevolution outputs.
+
+Before installation:
+Add gevolution, LATfield2 and rockstar in static directory.

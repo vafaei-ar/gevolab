@@ -1,0 +1,467 @@
+\documentclass[a4paper, 12 pt]{article}
+
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage[colorlinks=true, a4paper=true, pdfstartview=FitV, linkcolor=blue, citecolor=blue, urlcolor=blue]{hyperref}
+\usepackage[top=2.5cm,right=3cm,bottom=2.5cm,left=2.5cm]{geometry}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath} 
+\usepackage{amssymb} 
+\usepackage{mathtools}
+\usepackage{graphics}
+\usepackage{graphicx}
+\usepackage[toc,page]{appendix}
+\usepackage{float}
+\usepackage[caption = false]{subfig}
+\usepackage{cite}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{enumerate}
+\usepackage{subfig}
+\usepackage{hyperref}
+\usepackage[most]{tcolorbox}
+
+%\usepackage{biblatex}
+%\usepackage[backend=bibtex8]{biblatex}
+%\usepackage[backend=biber,style=authoryear]{biblatex} 
+%\bibliography{bib}
+
+\newcommand\fnurl[2]{%
+  \href{#2}{#1}\footnote{\url{#2}}%
+}
+
+%new commands
+\DeclarePairedDelimiter{\evdel}{\langle}{\rangle}
+\newcommand{\ev}{\operatorname{}\evdel}
+
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+\newcommand{\be}{\begin{equation}}
+\newcommand{\ee}{\end{equation}}
+ 
+% Default fixed font does not support bold face
+\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{12} % for bold
+\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{12}  % for normal
+
+% Custom colors
+\usepackage{color}
+\definecolor{deepblue}{rgb}{0,0,0.7}
+\definecolor{deepred}{rgb}{0.6,0,0}
+\definecolor{deepgreen}{rgb}{0,0.5,0}
+\definecolor{lightgreen}{rgb}{0.3,0.8,0.3}
+
+\usepackage{listings}
+
+% Terminal
+\newtcblisting{commandshell}{colback=black,colupper=lightgreen,colframe=yellow!75!black,
+listing only,listing options={language=sh},
+every listing line={\textcolor{green}{\small\ttfamily\bfseries [USER@system gevolab]\$ }}}
+
+% Python style for highlighting
+\newcommand\pythonstyle{\lstset{
+language=Python,
+basicstyle=\ttm,
+otherkeywords={self},             % Add keywords here
+keywordstyle=\ttb\color{deepblue},
+emph={MyClass,__init__},          % Custom highlighting
+emphstyle=\ttb\color{deepred},    % Custom highlighting style
+stringstyle=\color{deepgreen},
+frame=tb,                         % Any extra options here
+showstringspaces=false            % 
+}}
+
+% Python environment
+\lstnewenvironment{python}[1][]
+{
+\pythonstyle
+%\lstset{#1}
+}
+{}
+
+% Python for external files
+\newcommand\pythonexternal[2][]{{
+\pythonstyle
+\lstinputlisting[#1]{#2}}}
+
+% Python for inline
+\newcommand\pythoninline[1]{{\pythonstyle\lstinline!#1!}}
+
+%\lstset{
+%language=Python,
+%basicstyle=\ttfamily,
+%otherkeywords={self},             
+%keywordstyle=\ttfamily\color{blue!90!black},
+%keywords=[2]{True,False},
+%keywords=[3]{ttk},
+%keywordstyle={[2]\ttfamily\color{green!80!orange}},
+%keywordstyle={[3]\ttfamily\color{red!80!orange}},
+%emph={MyClass,__init__},          
+%emphstyle=\ttfamily\color{red!80!black},    
+%stringstyle=\color{green!80!black},
+%showstringspaces=false            
+%}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{titling}
+\usepackage{blindtext}
+
+\title{User Manual for Gevolab v0.1}
+\author{Alireza Vafaei Sadr}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%     PREFACE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Perface}
+Gevolab is an API for \fnurl{Gevolution}{https://github.com/gevolution-code/gevolution-1.1}\cite{Adamek:2016zes} powered by other packages to access and analyze data of Gevolution simulations.
+Gevolution is a particle-mesh N-body code which is based on general relativistic treatment of gravity. This package includes \fnurl{LATfield}{http://www.latfield.org/}\cite{David:2015eya} which provides a parallel framework for managing data, in particular Fields on a three dimensional Lattice. Some Gevolab functions also are boosted by using LATfield. Also this package is included two additional packages \fnurl{Rockstar Halo Finder}{https://bitbucket.org/gfcstanford/rockstar}\cite{Behroozi:2011ju} and \fnurl{pyGadgetReader}{https://bitbucket.org/rthompson/pygadgetreader}\cite{thompson:2014} for more analysis over data in an integrated platform.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%     SETTING UP
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Setting up}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%     Requirements
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Requirements}
+Since there may emerges version dependent bugs, it is highly recommended to use Anaconda distribution of the Python2.7. There are some needed packages for Gevolab.
+
+\begin{itemize}
+\item \fnurl{numpy}{http://www.numpy.org/}
+\item \fnurl{h5py}{http://www.h5py.org/}
+\item \fnurl{gcc-python-plugin}{https://github.com/davidmalcolm/gcc-python-plugin/blob/master/docs/index.rst}
+\end{itemize}
+
+In the case of using anaconda you can install them simply by using:
+\begin{commandshell}
+conda install numpy
+conda install h5py
+conda install -c anaconda gcc
+\end{commandshell}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%     Installation
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Installation}
+This version of Gevolab is tested by Python2.7 on Ubuntu distribution of Linux. Is is highly recommended to use \fnurl{Anaconda}{https://www.continuum.io/downloads} distribution of the Python for less version dependent inconsistencies.
+
+Also non-python packages may need libraries separately. So you can modify \textbf{setup.py}. There are two variables \textbf{includes} and \textbf{libs} for needed includes and libraries.
+
+Gevolab will be installed using simple bellow command:
+
+\begin{commandshell}
+python setup.py install
+\end{commandshell}, 
+where \textbf{python} is your own python interpreter. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%     PACKAGE structure and functions
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Package structure and functions}
+Source directory of package includes gevolab directory which contains all of classes and functions. Other needed (non-python) packages and data are static directory. You can modify that packages by replacing your own packages (maybe your specific modified version!). 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%     gev analyze class
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{\textit{gev\_analyze} class}
+There is a defined class in Gevolab that you can make an instance using it according to a Gevolution \textbf{setting.ini} file. A \textbf{setting.ini} file should contain all of necessary information about a Gevolution simulation. For example if you have a setting file in directory test, you can make an instance like:
+
+\begin{python}[language=Python, caption=instance definition]
+from gevolab import gev
+
+add = '/home/user/test/settings_sample.ini'
+sample = gev.gev_analyze(add)
+
+\end{python}.
+
+There are several methods to access and analyze chosen setting file outputs. Also you can run Gevolution within python according to the setting file.
+
+Now assuming above code, we  can use bellow methods:
+
+\begin{enumerate}
+
+\item \textit{setting\_getter()}: 
+You can extract all of selected setting file information by using this method on the defined instance:
+
+\begin{python}[language=Python, caption=setting getter]
+print sample.setting_getter()
+\end{python}.
+
+\item \textit{load(type,name,nsnap)}:
+
+This method can load either particle or field snapshots in \textit{.h5} format also power spectrum files.\\
+\textbf{Inputs:}\\
+\textit{type} is a string with two possible optiones. For snapshots you should use \textit{'snap'} and for power spectrum, \textit{'pk'}.\\
+\textit{name} is the filed you wanted to load. It should be in string format and select from setting file defined options.\\
+\textit{nsnap} is the number of requested snapshot.\\
+
+for example for loading third particles snapshot and $T_{00}$ power spectrum for second snapshot you can use 
+
+\begin{python}[language=Python, caption=setting getter]
+parts = sample.load('snap','pcls',3)
+power_t_00 = sample.load('pk','T00',2)
+\end{python} respectively.
+
+
+\item \textit{local\_run(n,m))}:
+
+This method is for running Gevolution using the specified options in selected setting file on your local computer. This method can be executed stand alone and does not need installed Gevolution. But in the case of running your modified version of Gevolution, you can put setting file in your version directory. Method can detect your version and run it automatically. \\
+\textbf{Inputs:}\\
+\textit{m} and \textit{n} are processor numbers of LATfield.\\
+
+For example for using 8 cores of a local computer 
+\begin{python}[language=Python, caption=local run]
+sample.local_run(4,2)
+\end{python}
+can be used.
+
+\item \textit{job\_submit(n\_core,time)}:
+
+This method is for running Gevolution using the specified options in selected setting file by submitting a job on cluster. It can generate run script and submit it.\\
+This method also can be executed stand alone and does not need installed Gevolution. But in the case of running your modified version of Gevolution, you can put setting file in your version directory. Method can detect your version and run it automatically. \\
+
+Note that this method is written according to dpt group of Baobab cluster. I can make it more flexible for other options according to what you want to change.\\
+
+\textbf{Inputs:}\\
+\textit{n\_core}\\ Number of cores. Default value is 16.
+\textit{time}\\ Wall time limit of the script. Note that wall time should inputted as string. Default time is $'5:00:00'$.
+
+For example for running on 64 cores by $10:00:00$ wall time.
+\begin{python}[language=Python, caption=job submit]
+sample.job_submit(n_core=64,time='10:00:00')
+\end{python}
+
+\item \textit{rockstar(nsnap)}:
+
+This method runs rockstar halo finder on the selected number of snapshot. Note that, outputs will be saved as two files \textit{halos\_0.0.ascii} and \textit{halos\_0.0.bin}. So if you want to save them, you have to rename them after running to avoid replacing them next time. Also it is obvious that if you want to do rockstar analysis on your selected setting outputs, you have to add 'pslc' for snapshot outputs.\\
+
+\textbf{Inputs:}\\
+\textit{nsnap} is the number of snapshot you want to run rockstar on.\\
+
+For example for first snapshot, you can simply write
+\begin{python}[language=Python, caption=rockstar]
+sample.rockstar(1)
+\end{python}.
+
+\item \textit{rockstar\_bin(key)}:
+
+This method can load features of found halos in rockstar binary output. So this method can be used only after running \textit{rockstar} method. For more information you can take a look at \fnurl{Rockstar Halo Finder}{https://bitbucket.org/gfcstanford/rockstar}\cite{Behroozi:2011ju} or \fnurl{pygadgetreader website}{https://bitbucket.org/rthompson/pygadgetreader} for more comprehensive examples.\\
+
+\textbf{Inputs:}\\
+\textit{key} is the key of requested information.\\
+
+For example information of particle IDs of halos, you can write
+\begin{python}[language=Python, caption=rockstar bin]
+sample.rockstar_bin('particles')
+\end{python}.
+
+\item \textit{duplicate(filename, **opts)}:
+
+This method can be used for generating a modified version of selected setting file within Gevolab. For example you want to run a first setting configuration and rerun it with several changes.\\
+
+\textbf{Inputs:}\\
+\textit{filename} is the name of new setting file you wanted to save.\\
+\textit{**opts} is(are) a python dictionary included the parameters you wanted to modify.\\
+
+For example if you want to change initial redshift and Ngrid, you can write
+\begin{python}[language=Python, caption=duplicate]
+new_setting_add = '/home/user/test/settings_sample2.ini'
+sample.duplicate(new_setting_add, **{"initial redshift":50\
+,"Ngrid":128})
+\end{python}.
+
+\item \textit{outputs\_push(type,name,nsnap)}:
+
+This method can transfer output files from cluster to a defined address. If you want to use this method, you first have to set host path.\\
+\textbf{Inputs:}\\
+\textit{type} is the type of requested output. It can be either 'pk' for power spectrum or 'snap' for snapshot. \\
+\textit{name} is the filed you wanted to transfer. It should be in string format and select from setting file defined options \\
+
+for example if you want to transfer second snapshot of phi filed on your assumed local computer, you can write
+\textit{nsnap} is the number of snapshot.\\
+
+\begin{python}[language=Python, caption=outputs push]
+sample.hostpath = 'user@192.168.1.1:~/outputs/'
+sample.outputs_push('snap','phi',2)
+\end{python}.
+
+Every time you use this command, it will request for password, so you can use ssh key generators for more ease.
+
+\item \textit{push(filename)}:
+
+This method can transfer any desired file from cluster to a defined address. If you want to use this method, you first have to set host path. Also this method is almost independent from setting file and it is just defined to have more flexibility over files.\\
+
+\textbf{Inputs:}\\
+\textit{filename} is the full path file name of desired file.\\
+
+\begin{python}[language=Python, caption=push]
+sample.hostpath = 'user@192.168.1.1:~/outputs/'
+file_add = '/home/user/gevolution/setting.ini'
+sample.outputs_push(file_add)
+\end{python}
+
+\item \textit{snap\_movie()}:
+
+This method can make a iterative animation from outputted snapshots. You have to add 'pcls' to setting file to use this method.\\
+Using this method is simply 
+\begin{python}[language=Python, caption=snap movie]
+sample.snap_movie()
+\end{python}.
+
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%     Functions
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Functions}
+
+\begin{enumerate}
+
+\item \textit{extractor(file\_name,id\_add,outname,function)}: 
+
+\textbf{Inputs:}\\
+\textit{file\_name} is the snapshot file that we want to use mask over.\\
+\textit{id\_add} is the address of particle IDs list file in ASCII format which you wanted to filter.\\
+\textit{outname} is the full path of output snapshot file name.\\
+\textit{function} is the transformation function for all 3 dimension positions. If you do not input this argument, default value will be set. Default is None and will use no transformation on particle positions.\\
+
+\begin{python}[language=Python, caption=extractor]
+
+from gevolab import gev
+import numpy as np
+
+file_name = '/home/user/gevolution/output/lcdm_snap000_cdm.h5'
+id_add = '/home/user/gevolution/ids'
+outname = '/home/user/IC/ic.h5'
+
+def function(x):
+	x_mean = np.mean(x)
+	xmin = np.min(x)
+	xmax = np.max(x)
+	if xmax-xmin>0.8:
+		x = x+0.5
+	x = np.mod(x, 1.)
+
+	xmin = np.min(x)
+	xmax = np.max(x)
+	x = 1.2*(x-xmin)
+	x_mean = np.mean(x)
+
+	return x-x_mean+0.5
+
+gev.extractor(file_name,id_add,outname,function)
+
+\end{python}
+
+\item \textit{plot\_snap\_save(snap)}:
+This function can draw and save snapshot in \textit{.jpg} format. If you want to run this function on servers, you have to use 'agg' mode of matplotlib.
+
+\textit{snap} is the full path address of snapshot file.\\
+
+Here is an example of this function.
+\begin{python}[language=Python, caption=plot snap save]
+import matplotlib as mpl
+mpl.use('agg')
+
+snap = '/home/user/gevolution/output/lcdm_snap000_cdm.h5'
+gev.plot_snap_save(snap)
+\end{python}
+
+\item \textit{snap\_show(snap)}:
+
+This function can show a snapshot in an interactive frame. You can not run this function on servers.
+
+\textit{snap} is the full path address of snapshot file.\\
+
+Here is an example of this function.
+\begin{python}[language=Python, caption=snap show]
+import matplotlib as mpl
+
+snap = '/home/user/gevolution/output/lcdm_snap000_cdm.h5'
+gev.snap_show(snap)
+\end{python}
+
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%     EXAMPLES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\section{Examples}
+
+%\begin{figure}
+%  \centering
+%		\includegraphics[width=0.8\textwidth]{./fig/s_0.5-1.png}
+%\caption{Canny algorithm on string map (just string) }
+%\label{sh1}
+%\end{figure}
+%\noindent
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{thebibliography}{99}
+
+%\cite{Adamek:2016zes}
+\bibitem{Adamek:2016zes} 
+  J.~Adamek, D.~Daverio, R.~Durrer and M.~Kunz,
+  %``gevolution: a cosmological N-body code based on General Relativity,''
+  JCAP {\bf 1607}, no. 07, 053 (2016)
+  doi:10.1088/1475-7516/2016/07/053
+  [arXiv:1604.06065 [astro-ph.CO]].
+  %%CITATION = doi:10.1088/1475-7516/2016/07/053;%%
+  %13 citations counted in INSPIRE as of 23 Apr 2017
+
+%\cite{David:2015eya}
+\bibitem{David:2015eya} 
+  D.~Daverio, M.~Hindmarsh and N.~Bevis,
+  %``Latfield2: A c++ library for classical lattice field theory,''
+  arXiv:1508.05610 [physics.comp-ph].
+  %%CITATION = ARXIV:1508.05610;%%
+  %6 citations counted in INSPIRE as of 22 Apr 2017
+
+%\cite{Behroozi:2011ju}
+\bibitem{Behroozi:2011ju} 
+  P.~S.~Behroozi, R.~H.~Wechsler and H.~Y.~Wu,
+  %``The Rockstar Phase-Space Temporal Halo Finder and the Velocity Offsets of Cluster Cores,''
+  Astrophys.\ J.\  {\bf 762}, 109 (2013)
+  doi:10.1088/0004-637X/762/2/109
+  [arXiv:1110.4372 [astro-ph.CO]].
+  %%CITATION = doi:10.1088/0004-637X/762/2/109;%%
+  %241 citations counted in INSPIRE as of 22 Apr 2017
+
+%\cite{thompson:2014}
+\bibitem{thompson:2014} 
+  R.~Thompson,
+  %``Latfield2: A c++ library for classical lattice field theory,''
+  pyGadgetReader: GADGET snapshot reader for python,
+  Astrophysics Source Code Library (2014).
+  %%CITATION = ARXIV:1508.05610;%%
+  %6 citations counted in INSPIRE as of 22 Apr 2017
+
+
+\end{thebibliography}
+
+\end{document}
